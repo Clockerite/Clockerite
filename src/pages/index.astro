@@ -1,0 +1,252 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const featureCards = [
+  {
+    num: "01",
+    href: "/portfolio/",
+    label: "WORK",
+    title: "Portfolio",
+    desc: "A professional collection of development, games, builds, models, media, experiments, and future work.",
+    cta: "View portfolio →",
+    large: true,
+  },
+  {
+    num: "02",
+    href: "/blog/",
+    label: "WRITING",
+    title: "Blog",
+    desc: "Development thoughts, experiments, tutorials, ideas, and things worth sharing.",
+    cta: "Read the blog →",
+    large: false,
+  },
+  {
+    num: "03",
+    href: "/projects/",
+    label: "BUILDING",
+    title: "Projects",
+    desc: "Current projects, experiments, studios, concepts, and things in progress.",
+    cta: "Explore projects →",
+    large: false,
+  },
+  {
+    num: "04",
+    href: "/shop/",
+    label: "CREATIONS",
+    title: "Shop",
+    desc: "Digital products, assets, media, and future Clockerite creations.",
+    cta: "Visit the shop →",
+    large: false,
+  },
+];
+---
+
+<BaseLayout
+  title="Clockerite"
+  description="Clockerite — development, projects, creations, and things worth building."
+>
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="relative overflow-hidden">
+    <!--
+      Torn-edge background art — dark theme only. Placeholder gradients
+      stand in for project screenshots: swap each div's inline
+      background for `background-image: url(...)` once real thumbnails
+      exist. The .torn-edge clip-path (global.css) gives the jagged
+      "peeking through" edge.
+    -->
+    <div class="pointer-events-none absolute inset-0 hidden dark:block" aria-hidden="true">
+      <div
+        class="torn-edge absolute -left-16 top-2 h-72 w-56 rotate-[-4deg] opacity-40"
+        style="background: linear-gradient(160deg, var(--color-accent), transparent);"
+      >
+      </div>
+      <div
+        class="torn-edge absolute -right-14 top-16 h-80 w-60 rotate-[5deg] opacity-35"
+        style="background: linear-gradient(200deg, var(--color-accent-secondary), transparent);"
+      >
+      </div>
+      <div
+        class="torn-edge absolute left-1/4 -bottom-24 h-64 w-52 rotate-[3deg] opacity-25"
+        style="background: linear-gradient(140deg, var(--color-accent), var(--color-accent-secondary));"
+      >
+      </div>
+      <div
+        class="torn-edge absolute right-1/4 -bottom-16 h-56 w-48 rotate-[-2deg] opacity-20"
+        style="background: linear-gradient(120deg, var(--color-accent-secondary), var(--color-accent));"
+      >
+      </div>
+    </div>
+
+    <div class="relative mx-auto max-w-2xl px-6 py-20 text-center md:py-28">
+      <!-- Avatar -->
+      <div
+        class="mx-auto h-28 w-28 rounded-full p-1.5 shadow-[var(--shadow-raised)] md:h-36 md:w-36"
+        style="background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));"
+      >
+        <div class="h-full w-full rounded-full bg-surface"></div>
+      </div>
+
+      <!-- Social icons — grey by default, fan outward + reveal brand
+           color on hover. Swap the inline glyph paths for real logo
+           SVGs whenever you like; the hover behavior stays the same. -->
+      <div class="group/social mt-6 flex items-center justify-center">
+        <a
+          href="#"
+          aria-label="Roblox"
+          class="relative z-0 -ml-3 flex h-10 w-10 first:ml-0 items-center justify-center rounded-full bg-surface text-text-secondary shadow-[var(--shadow-card)] transition-all duration-300 hover:z-10 hover:scale-110 hover:text-[#000000] group-hover/social:-translate-x-7 dark:hover:text-white"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="4" width="16" height="16" rx="2" transform="rotate(15 12 12)" />
+          </svg>
+        </a>
+        <a
+          href="#"
+          aria-label="Discord"
+          class="relative z-0 -ml-3 flex h-10 w-10 items-center justify-center rounded-full bg-surface text-text-secondary shadow-[var(--shadow-card)] transition-all duration-300 hover:z-10 hover:scale-110 hover:text-[#5865F2] group-hover/social:-translate-x-3.5"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="6" width="16" height="11" rx="5" />
+            <circle cx="9" cy="11.5" r="1" fill="currentColor" stroke="none" />
+            <circle cx="15" cy="11.5" r="1" fill="currentColor" stroke="none" />
+          </svg>
+        </a>
+        <a
+          href="#"
+          aria-label="YouTube"
+          class="relative z-0 -ml-3 flex h-10 w-10 items-center justify-center rounded-full bg-surface text-text-secondary shadow-[var(--shadow-card)] transition-all duration-300 hover:z-10 hover:scale-110 hover:text-[#FF0000]"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="6" width="18" height="12" rx="3" />
+            <path d="M10.5 9.5v5l4.5-2.5-4.5-2.5z" fill="currentColor" stroke="none" />
+          </svg>
+        </a>
+        <a
+          href="#"
+          aria-label="Instagram"
+          class="relative z-0 -ml-3 flex h-10 w-10 items-center justify-center rounded-full bg-surface text-text-secondary shadow-[var(--shadow-card)] transition-all duration-300 hover:z-10 hover:scale-110 hover:text-[#E1306C] group-hover/social:translate-x-3.5"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="4" width="16" height="16" rx="4" />
+            <circle cx="12" cy="12" r="3.2" />
+            <circle cx="16.2" cy="7.8" r="0.6" fill="currentColor" stroke="none" />
+          </svg>
+        </a>
+        <a
+          href="#"
+          aria-label="X"
+          class="relative z-0 -ml-3 flex h-10 w-10 items-center justify-center rounded-full bg-surface text-text-secondary shadow-[var(--shadow-card)] transition-all duration-300 hover:z-10 hover:scale-110 hover:text-[#000000] group-hover/social:translate-x-7 dark:hover:text-white"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+            <line x1="4" y1="4" x2="20" y2="20" />
+            <line x1="20" y1="4" x2="4" y2="20" />
+          </svg>
+        </a>
+      </div>
+
+      <h1 class="mt-8 text-5xl font-semibold tracking-tight text-text-primary md:text-6xl">
+        Clockerite<span class="text-accent">.</span>
+      </h1>
+      <p class="mx-auto mt-4 max-w-md text-base text-text-secondary">
+        Welcome — a growing space for development, creative work, experiments, projects, and
+        things worth building.
+      </p>
+
+      <!-- Search bar — visual placeholder for now. The animated plush
+           mascot will eventually sit over the search icon and react to
+           interaction; no functional search yet. -->
+      <div class="relative mx-auto mt-10 max-w-xl">
+        <input
+          type="search"
+          placeholder="Search Clockerite..."
+          aria-label="Search Clockerite"
+          class="w-full rounded-full border border-border bg-surface-raised py-4 pl-6 pr-14 text-sm text-text-primary shadow-[var(--shadow-card)] outline-none transition-colors placeholder:text-text-muted focus:border-accent"
+        />
+        <button
+          type="button"
+          aria-label="Search"
+          class="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-accent text-white transition-transform hover:scale-105"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm">
+        <a href="/portfolio/" class="font-medium text-accent hover:underline">Explore the work →</a>
+        <a href="/about/" class="text-text-secondary hover:text-text-primary">About Clockerite</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FEATURED CONTENT
+       ============================================================ -->
+  <section class="border-t border-border bg-surface py-20" aria-labelledby="featured-title">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="text-sm font-medium tracking-wide text-accent">Discover</p>
+          <h2 id="featured-title" class="mt-2 text-3xl font-semibold tracking-tight text-text-primary">
+            A place for everything Clockerite.
+          </h2>
+        </div>
+        <p class="max-w-sm text-sm text-text-secondary">
+          Development, experiments, projects, writing, creations, and whatever comes next.
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-5 md:grid-cols-3">
+        {
+          featureCards.map((card) => (
+            <a
+              href={card.href}
+              class={`group flex flex-col justify-between rounded-2xl border border-border bg-surface-raised p-6 shadow-[var(--shadow-card)] transition-transform hover:-translate-y-1 ${
+                card.large ? "md:col-span-2 md:row-span-2" : ""
+              }`}
+            >
+              <span class="text-sm text-text-muted">{card.num}</span>
+              <div class="mt-6">
+                <p class="text-xs font-medium tracking-[0.2em] text-text-muted">{card.label}</p>
+                <h3 class="mt-2 text-2xl font-semibold text-text-primary">{card.title}</h3>
+                <p class="mt-2 text-sm text-text-secondary">{card.desc}</p>
+                <span class="mt-4 inline-block text-sm font-medium text-accent transition-transform group-hover:translate-x-1">
+                  {card.cta}
+                </span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       IDENTITY SECTION
+       ============================================================ -->
+  <section class="border-t border-border py-20">
+    <div class="mx-auto grid max-w-6xl gap-8 px-6 md:grid-cols-2">
+      <div>
+        <p class="text-sm font-medium tracking-wide text-accent">The idea</p>
+        <h2 class="mt-2 text-3xl font-semibold tracking-tight text-text-primary">Built to grow.</h2>
+      </div>
+      <div>
+        <p class="text-base text-text-secondary">
+          Clockerite is a growing digital identity centered around development, creativity,
+          experimentation, and the things I build.
+        </p>
+        <p class="mt-4 text-base text-text-secondary">
+          This website is intended to become the central place where those things can live,
+          evolve, and eventually connect.
+        </p>
+        <a href="/about/" class="mt-5 inline-block text-sm font-medium text-accent hover:underline">
+          Learn more about Clockerite →
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

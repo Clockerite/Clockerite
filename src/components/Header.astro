@@ -1,0 +1,188 @@
+---
+const primaryNav = [
+  { href: "/blog/", label: "Blog" },
+  { href: "/portfolio/", label: "Portfolio" },
+  { href: "/shop/", label: "Shop" },
+];
+
+// Everything else lives behind the hamburger — deeper pages, not primary destinations.
+const secondaryNav = [
+  { href: "/projects/", label: "Projects" },
+  { href: "/about/", label: "About" },
+];
+---
+
+<header class="sticky top-0 z-40 border-b border-border bg-background/85 shadow-[0_2px_8px_rgba(0,0,0,0.06)] backdrop-blur">
+  <nav
+    class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4"
+    aria-label="Main navigation"
+  >
+    <div class="flex items-center gap-2.5">
+      <a
+        href="/"
+        aria-label="Clockerite"
+        class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
+        style="background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));"
+      >
+        C
+      </a>
+      <a
+        href="/"
+        aria-label="Clockerite home"
+        class="text-lg font-semibold tracking-tight text-text-primary"
+      >
+        Clockerite
+      </a>
+    </div>
+
+    <div class="hidden items-center gap-8 md:flex">
+      {
+        primaryNav.map((link) => (
+          <a
+            href={link.href}
+            class="text-sm text-text-secondary transition-colors hover:text-text-primary"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- Hamburger: opens the menu panel below (secondary nav + theme) -->
+    <button
+      type="button"
+      class="rounded-full border border-border p-2 text-text-secondary transition-colors hover:text-text-primary"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="site-menu"
+      data-menu-trigger
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <line x1="4" y1="7" x2="20" y2="7" />
+        <line x1="4" y1="12" x2="20" y2="12" />
+        <line x1="4" y1="17" x2="20" y2="17" />
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Menu panel: secondary nav + theme toggle. Also carries primary nav on
+       mobile, where the row above is hidden. -->
+  <div
+    id="site-menu"
+    data-menu-panel
+    class="hidden border-t border-border bg-surface-raised"
+  >
+    <div class="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-5 md:flex-row md:items-center md:justify-between">
+      <div class="flex flex-col gap-3 md:hidden">
+        {
+          primaryNav.map((link) => (
+            <a href={link.href} class="text-sm text-text-secondary transition-colors hover:text-text-primary">
+              {link.label}
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="flex flex-col gap-3 md:flex-row md:items-center md:gap-6">
+        {
+          secondaryNav.map((link) => (
+            <a href={link.href} class="text-sm text-text-secondary transition-colors hover:text-text-primary">
+              {link.label}
+            </a>
+          ))
+        }
+      </div>
+
+      <button
+        type="button"
+        class="flex items-center gap-2 self-start rounded-full border border-border px-3 py-1.5 text-sm text-text-secondary transition-colors hover:text-text-primary md:self-auto"
+        data-theme-toggle
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+        </svg>
+        <span data-theme-label>Theme</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const STORAGE_KEY = "clockerite-theme";
+
+  const menuTrigger = document.querySelector<HTMLButtonElement>("[data-menu-trigger]");
+  const menuPanel = document.querySelector<HTMLDivElement>("[data-menu-panel]");
+  const themeToggle = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+  const themeLabel = document.querySelector<HTMLSpanElement>("[data-theme-label]");
+
+  function closeMenu() {
+    menuPanel?.classList.add("hidden");
+    menuTrigger?.setAttribute("aria-expanded", "false");
+  }
+
+  function toggleMenu() {
+    const isOpen = !menuPanel?.classList.contains("hidden");
+    menuPanel?.classList.toggle("hidden");
+    menuTrigger?.setAttribute("aria-expanded", String(!isOpen));
+  }
+
+  menuTrigger?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    toggleMenu();
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!menuPanel || menuPanel.classList.contains("hidden")) return;
+    const target = event.target as Node;
+    if (!menuPanel.contains(target) && !menuTrigger?.contains(target)) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenu();
+  });
+
+  function currentTheme(): "light" | "dark" {
+    return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+  }
+
+  function updateThemeLabel() {
+    if (themeLabel) themeLabel.textContent = currentTheme() === "dark" ? "Dark" : "Light";
+  }
+
+  function setTheme(theme: "light" | "dark") {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem(STORAGE_KEY, theme);
+    updateThemeLabel();
+  }
+
+  themeToggle?.addEventListener("click", () => {
+    setTheme(currentTheme() === "dark" ? "light" : "dark");
+  });
+
+  updateThemeLabel();
+</script>

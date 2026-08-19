@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Page not found" description="This page doesn't exist.">
+  <section class="mx-auto flex max-w-md flex-col items-center px-6 py-24 text-center">
+    <!--
+      Placeholder "sad" mascot expression — swap this whole <svg> for the
+      real illustrated plush character once it exists. Keep the same
+      slot/size so layout doesn't need to change later.
+    -->
+    <div
+      class="flex h-28 w-28 items-center justify-center rounded-full"
+      style="background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));"
+    >
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="9" cy="10" r="1" fill="white" stroke="none" />
+        <circle cx="15" cy="10" r="1" fill="white" stroke="none" />
+        <path d="M8.5 16c1-1.2 2.2-1.8 3.5-1.8s2.5.6 3.5 1.8" />
+      </svg>
+    </div>
+
+    <h1 class="mt-8 text-2xl font-semibold tracking-tight text-text-primary">Nothing here yet.</h1>
+    <p class="mt-3 text-sm text-text-secondary">
+      Clockerite is still building this section — or the page moved.
+    </p>
+
+    <a
+      href="/"
+      class="mt-8 rounded-full bg-accent px-6 py-3 text-sm font-medium text-white shadow-[var(--shadow-card)] transition-transform hover:-translate-y-0.5"
+    >
+      Back to home
+    </a>
+  </section>
+</BaseLayout>
