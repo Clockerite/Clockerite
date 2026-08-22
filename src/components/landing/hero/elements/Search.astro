@@ -1,0 +1,61 @@
+<div class="site-search">
+  <div class="site-search-inner relative">
+
+    <input
+      type="search"
+      placeholder="Search Clockerite..."
+      aria-label="Search Clockerite"
+      class="liquid-glass w-full rounded-full border border-border bg-surface-raised py-4 pl-6 pr-14 text-sm text-text-primary shadow-[var(--shadow-card)] outline-none transition-all duration-300 placeholder:text-text-muted focus:border-accent focus:shadow-[0_0_0_3px_rgba(37,99,235,0.18),0_5px_15px_rgba(0,0,0,0.10)]"
+    />
+
+    <button
+      type="button"
+      aria-label="Search"
+      class="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 rounded-full bg-accent text-white transition-transform hover:scale-105 items-center justify-center"
+    >
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.35-4.35" />
+      </svg>
+    </button>
+
+  </div>
+</div>
+
+<style>
+  .site-search {
+    width: clamp(320px, 40vw, 520px);
+  }
+
+  .site-search-inner {
+    width: 100%;
+  }
+
+  @media (max-width: 950px) {
+    .site-search {
+      width: min(450px, 80vw);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .site-search {
+      width: min(450px, calc(100vw - 64px));
+    }
+  }
+
+  @media (max-width: 480px) {
+    .site-search {
+      width: calc(100vw - 52px);
+    }
+  }
+</style>

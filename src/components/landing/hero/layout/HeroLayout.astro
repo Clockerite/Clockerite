@@ -1,0 +1,166 @@
+---
+import Profile from "../elements/Profile.astro";
+import SocialLinks from "../elements/SocialLinks.astro";
+import Identity from "../elements/Identity.astro";
+import Description from "../elements/Description.astro";
+import ContactLinks from "../elements/ContactLinks.astro";
+import Search from "../elements/Search.astro";
+---
+
+<div class="hero-layout">
+
+  <div class="hero-profile">
+    <Profile />
+  </div>
+
+  <div class="hero-social">
+    <SocialLinks />
+  </div>
+
+  <div class="hero-identity">
+    <Identity />
+  </div>
+
+  <div class="hero-search">
+    <Search />
+  </div>
+
+  <div class="hero-description">
+    <Description />
+  </div>
+
+  <div class="hero-contact">
+    <ContactLinks />
+  </div>
+
+</div>
+
+<style>
+  .hero-layout {
+    position: relative;
+    width: 100%;
+    min-height: 680px;
+  }
+
+
+  /* =========================================================
+     DESKTOP
+     ========================================================= */
+
+  .hero-profile {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .hero-social {
+    position: absolute;
+    top: 190px;
+    left: 0;
+  }
+
+  .hero-identity {
+    position: absolute;
+    top: 255px;
+    left: 0;
+  }
+
+  .hero-search {
+    position: absolute;
+    top: 315px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .hero-description {
+    position: absolute;
+    top: 455px;
+    left: 0;
+  }
+
+  .hero-contact {
+    position: absolute;
+    top: 580px;
+    left: 0;
+  }
+
+
+  /* =========================================================
+     TABLET / MOBILE
+     ========================================================= */
+
+  @media (max-width: 950px) {
+    .hero-layout {
+      min-height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-profile {
+      position: relative;
+      top: auto;
+      left: auto;
+      order: 1;
+    }
+
+    .hero-social {
+      position: relative;
+      top: auto;
+      left: auto;
+      order: 2;
+
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      margin-top: 1.5rem;
+    }
+
+    .hero-identity {
+      position: relative;
+      top: auto;
+      left: auto;
+      order: 3;
+
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .hero-search {
+      position: relative;
+      top: auto;
+      left: auto;
+      order: 4;
+
+      transform: none;
+
+      margin-top: 1.5rem;
+    }
+
+    .hero-description {
+      position: relative;
+      top: auto;
+      left: auto;
+      order: 5;
+
+      width: 100%;
+      max-width: 32rem;
+
+      margin-top: 1rem;
+
+      display: block;
+    }
+
+    .hero-contact {
+      position: relative;
+      top: auto;
+      left: auto;
+      order: 6;
+
+      width: 100%;
+
+      margin-top: 1.25rem;
+    }
+  }
+</style>

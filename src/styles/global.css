@@ -7,28 +7,15 @@
 */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
+
 /*
   ============================================================
   CLOCKERITE — DESIGN TOKENS
   ============================================================
-
-  Two identities, one system:
-    - Light / Blue  (default, [data-theme="light"] or no attribute)
-    - Dark / Purple ([data-theme="dark"])
-
-  Tailwind v4 reads CSS custom properties declared inside @theme
-  and turns them into utilities automatically:
-    --color-accent  →  bg-accent / text-accent / border-accent
-  Because utilities compile to `var(--color-accent)`, overriding
-  the variable under [data-theme="dark"] re-themes every utility
-  that uses it — no duplicate class sets needed.
-
-  Spacing intentionally uses Tailwind's built-in 4px-based scale,
-  which already matches DESIGN_SYSTEM.md §14 (4/8/12/16/24/32/48/64/96/128).
 */
 
 @theme {
-  /* Light / Blue (default) */
+  /* Light / Blue */
   --color-background: #ffffff;
   --color-surface: #f6f7f9;
   --color-surface-raised: #ffffff;
@@ -48,11 +35,22 @@
 
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
-  --shadow-card: 0 1px 2px rgba(20, 22, 26, 0.04), 0 8px 24px rgba(20, 22, 26, 0.06);
-  --shadow-raised: 0 2px 4px rgba(20, 22, 26, 0.05), 0 16px 40px rgba(20, 22, 26, 0.08);
+  --shadow-card:
+    0 1px 2px rgba(20, 22, 26, 0.04),
+    0 8px 24px rgba(20, 22, 26, 0.06);
+
+  --shadow-raised:
+    0 2px 4px rgba(20, 22, 26, 0.05),
+    0 16px 40px rgba(20, 22, 26, 0.08);
 }
 
-/* Dark / Purple */
+
+/*
+  ============================================================
+  DARK / PURPLE
+  ============================================================
+*/
+
 [data-theme="dark"] {
   --color-background: #0f0e13;
   --color-surface: #17151d;
@@ -67,13 +65,21 @@
 
   --color-border: #2a2733;
 
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
-  --shadow-raised: 0 2px 4px rgba(0, 0, 0, 0.35), 0 16px 48px rgba(0, 0, 0, 0.5);
+  --shadow-card:
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 8px 24px rgba(0, 0, 0, 0.35);
+
+  --shadow-raised:
+    0 2px 4px rgba(0, 0, 0, 0.35),
+    0 16px 48px rgba(0, 0, 0, 0.5);
 }
 
-/* ============================================================
-   BASE
-   ============================================================ */
+
+/*
+  ============================================================
+  BASE
+  ============================================================
+*/
 
 @layer base {
   * {
@@ -101,7 +107,6 @@
     color: inherit;
   }
 
-  /* Visible, consistent focus states — DESIGN_SYSTEM.md §41 */
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
@@ -109,9 +114,12 @@
   }
 }
 
-/* ============================================================
-   REDUCED MOTION — DESIGN_SYSTEM.md §42
-   ============================================================ */
+
+/*
+  ============================================================
+  REDUCED MOTION
+  ============================================================
+*/
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -124,22 +132,312 @@
   }
 }
 
-/* ============================================================
-   TORN-EDGE BACKGROUND ART (dark theme)
-   ============================================================
-   Jagged top/bottom edges so background panels read as "torn paper"
-   with project imagery peeking through. Swap the gradient fill on
-   each instance for a real project screenshot via background-image
-   once assets exist — clip-path applies the same either way.
+
+/*
+  ============================================================
+  TORN-EDGE BACKGROUND ART
+  ============================================================
 */
 
 @layer utilities {
   .torn-edge {
     clip-path: polygon(
-      0% 12%, 6% 2%, 14% 10%, 22% 0%, 30% 8%, 38% 1%, 46% 11%, 54% 3%,
-      62% 9%, 70% 0%, 78% 7%, 86% 2%, 94% 10%, 100% 3%,
-      100% 90%, 92% 100%, 84% 91%, 76% 99%, 68% 90%, 60% 100%, 52% 92%,
-      44% 100%, 36% 91%, 28% 99%, 20% 90%, 12% 100%, 4% 92%, 0% 98%
+      0% 12%,
+      6% 2%,
+      14% 10%,
+      22% 0%,
+      30% 8%,
+      38% 1%,
+      46% 11%,
+      54% 3%,
+      62% 9%,
+      70% 0%,
+      78% 7%,
+      86% 2%,
+      94% 10%,
+      100% 3%,
+      100% 90%,
+      92% 100%,
+      84% 91%,
+      76% 99%,
+      68% 90%,
+      60% 100%,
+      52% 92%,
+      44% 100%,
+      36% 91%,
+      28% 99%,
+      20% 90%,
+      12% 100%,
+      4% 92%,
+      0% 98%
     );
+  }
+}
+
+
+/*
+  ============================================================
+  CLOCKERITE — LIQUID GLASS
+  ============================================================
+
+  Liquid UI is an optional visual material.
+
+  The normal page remains unchanged when:
+
+    data-liquid="false"
+
+  When enabled, elements using:
+
+    .liquid-glass
+
+  receive:
+
+    - translucent glass
+    - backdrop blur
+    - saturation
+    - convex edge lighting
+    - cursor-following reflection
+    - specular highlights
+    - subtle perspective movement
+*/
+
+
+/*
+  ============================================================
+  BASE LIQUID MATERIAL
+  ============================================================
+*/
+
+[data-liquid="true"] .liquid-glass {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.30),
+      rgba(255, 255, 255, 0.10) 45%,
+      rgba(255, 255, 255, 0.16)
+    );
+
+  -webkit-backdrop-filter:
+    blur(18px) saturate(145%);
+
+  backdrop-filter:
+    blur(18px) saturate(145%);
+
+  border: 1px solid rgba(255, 255, 255, 0.38);
+
+  box-shadow:
+    inset 0 2px 3px rgba(255, 255, 255, 0.65),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.10),
+    inset 3px 0 6px rgba(255, 255, 255, 0.18),
+    inset -3px 0 6px rgba(255, 255, 255, 0.10),
+    0 12px 38px rgba(0, 0, 0, 0.12);
+
+  transform:
+    perspective(900px)
+    rotateX(calc(var(--liquid-y-angle) * -0.15))
+    rotateY(calc(var(--liquid-x-angle) * 0.15));
+
+  transition:
+    transform 180ms ease,
+    box-shadow 300ms ease;
+}
+
+
+/*
+  ============================================================
+  CURSOR-FOLLOWING INTERNAL LIGHT
+  ============================================================
+
+  This is now positioned relative to the individual
+  liquid element rather than the entire viewport.
+*/
+
+[data-liquid="true"] .liquid-glass::before {
+  content: "";
+
+  position: absolute;
+  inset: -20%;
+
+  pointer-events: none;
+
+  border-radius: inherit;
+
+  background:
+    radial-gradient(
+      circle 18%
+      at var(--liquid-local-x) var(--liquid-local-y),
+
+      rgba(255, 255, 255, 0.75) 0%,
+      rgba(255, 255, 255, 0.38) 22%,
+      rgba(255, 255, 255, 0.12) 42%,
+      transparent 70%
+    );
+
+  opacity: 0.9;
+
+  transform:
+    translate(
+      calc(var(--liquid-x) * 0.025),
+      calc(var(--liquid-y) * 0.025)
+    );
+
+  mix-blend-mode: screen;
+
+  transition:
+    transform 120ms ease,
+    opacity 250ms ease;
+}
+
+
+/*
+  ============================================================
+  SPECULAR HIGHLIGHT
+  ============================================================
+*/
+
+[data-liquid="true"] .liquid-glass::after {
+  content: "";
+
+  position: absolute;
+  inset: 1px;
+
+  pointer-events: none;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      125deg,
+
+      rgba(255, 255, 255, 0.65) 0%,
+      rgba(255, 255, 255, 0.28) 9%,
+      rgba(255, 255, 255, 0.08) 22%,
+      transparent 38%,
+
+      transparent 68%,
+
+      rgba(255, 255, 255, 0.08) 82%,
+      rgba(255, 255, 255, 0.28) 94%,
+      rgba(255, 255, 255, 0.40) 100%
+    );
+
+  opacity: 0.75;
+
+  mix-blend-mode: screen;
+}
+
+
+/*
+  ============================================================
+  LIGHT MODE
+  ============================================================
+*/
+
+[data-theme="light"][data-liquid="true"] .liquid-glass {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.42),
+      rgba(255, 255, 255, 0.12) 50%,
+      rgba(255, 255, 255, 0.24)
+    );
+
+  border-color:
+    rgba(255, 255, 255, 0.65);
+
+  box-shadow:
+    inset 0 2px 3px rgba(255, 255, 255, 0.90),
+    inset 0 -3px 6px rgba(20, 22, 26, 0.06),
+    inset 3px 0 6px rgba(255, 255, 255, 0.35),
+    inset -3px 0 6px rgba(255, 255, 255, 0.15),
+    0 12px 38px rgba(20, 22, 26, 0.11);
+}
+
+
+/*
+  ============================================================
+  DARK / PURPLE MODE
+  ============================================================
+*/
+
+[data-theme="dark"][data-liquid="true"] .liquid-glass {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.13),
+      rgba(139, 92, 246, 0.09) 48%,
+      rgba(255, 255, 255, 0.07)
+    );
+
+  border-color:
+    rgba(255, 255, 255, 0.24);
+
+  box-shadow:
+    inset 0 2px 3px rgba(255, 255, 255, 0.28),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.30),
+    inset 3px 0 6px rgba(255, 255, 255, 0.12),
+    inset -3px 0 6px rgba(255, 255, 255, 0.05),
+    0 14px 42px rgba(0, 0, 0, 0.32);
+}
+
+
+/*
+  ============================================================
+  HOVER — MATERIAL LIFTS SLIGHTLY
+  ============================================================
+*/
+
+[data-liquid="true"] .liquid-glass:hover {
+  box-shadow:
+    inset 0 2px 3px rgba(255, 255, 255, 0.75),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.08),
+    inset 3px 0 6px rgba(255, 255, 255, 0.20),
+    inset -3px 0 6px rgba(255, 255, 255, 0.10),
+    0 14px 42px rgba(0, 0, 0, 0.13);
+}
+
+
+/*
+  ============================================================
+  MOBILE — MORE ORGANIC GLASS MOVEMENT
+  ============================================================
+*/
+
+@media (max-width: 767px) {
+  [data-liquid="true"] .liquid-glass {
+    -webkit-backdrop-filter:
+      blur(20px) saturate(155%);
+
+    backdrop-filter:
+      blur(20px) saturate(155%);
+
+    transition:
+      transform 120ms ease,
+      box-shadow 250ms ease;
+  }
+
+  [data-liquid="true"] .liquid-glass::before {
+    opacity: 0.95;
+  }
+}
+
+
+/*
+  ============================================================
+  REDUCED MOTION
+  ============================================================
+*/
+
+@media (prefers-reduced-motion: reduce) {
+  [data-liquid="true"] .liquid-glass {
+    transform: none;
+  }
+
+  [data-liquid="true"] .liquid-glass::before {
+    transform: none;
   }
 }

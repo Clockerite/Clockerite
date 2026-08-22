@@ -1,0 +1,64 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+import EffectToggle from "./EffectToggle.astro";
+
+const primaryNav = [
+  { href: "/blog/", label: "Blog" },
+  { href: "/portfolio/", label: "Portfolio" },
+  { href: "/shop/", label: "Shop" },
+];
+
+const secondaryNav = [
+  { href: "/projects/", label: "Projects" },
+  { href: "/about/", label: "About" },
+];
+---
+
+<div
+  id="site-menu"
+  data-menu-panel
+  class="hidden border-t border-border bg-surface-raised"
+>
+  <div class="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-5">
+
+    <!-- MOBILE PRIMARY NAV -->
+    <div class="flex flex-col gap-3 md:hidden">
+      {
+        primaryNav.map((link) => (
+          <a
+            href={link.href}
+            class="text-sm text-text-secondary transition-colors hover:text-text-primary"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+
+
+    <!-- SECONDARY NAV -->
+    <div class="flex flex-col gap-3 md:flex-row md:items-center md:gap-6">
+      {
+        secondaryNav.map((link) => (
+          <a
+            href={link.href}
+            class="text-sm text-text-secondary transition-colors hover:text-text-primary"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+
+
+    <!-- SETTINGS -->
+    <div class="flex flex-col gap-3 md:flex-row md:items-center md:gap-3">
+
+      <ThemeToggle />
+
+      <EffectToggle />
+
+    </div>
+
+  </div>
+</div>

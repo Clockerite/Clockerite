@@ -1,0 +1,34 @@
+---
+import HeroLayout from "./layout/HeroLayout.astro";
+---
+
+<section
+  class="intro-section relative overflow-hidden"
+  aria-labelledby="hero-title"
+>
+  <div class="intro-container">
+    <HeroLayout />
+  </div>
+</section>
+
+<style>
+  .intro-container {
+    width: 100%;
+    max-width: 1400px;
+    margin-inline: auto;
+
+    padding-inline: clamp(1rem, 4vw, 4rem);
+    padding-top: 3rem;
+    padding-bottom: 3.5rem;
+
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 767px) {
+    .intro-container {
+      padding-inline: 1rem;
+      padding-top: 2rem;
+      padding-bottom: 2.5rem;
+    }
+  }
+</style>

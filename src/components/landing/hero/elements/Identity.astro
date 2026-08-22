@@ -1,0 +1,120 @@
+<div class="identity">
+  <h1 class="site-name liquid-text font-semibold tracking-tight">
+    Clockerite
+  </h1>
+
+  <p class="personal-tagline text-text-secondary">
+    Imagine. Create. Inspire.
+  </p>
+</div>
+
+<style>
+  .identity {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .site-name {
+    margin: 0;
+
+    font-size: 3.25rem;
+    line-height: 1.05;
+
+    background: linear-gradient(
+      105deg,
+      #111827 0%,
+      #111827 35%,
+      #0f172a 45%,
+      #2563eb 68%,
+      #2563eb 100%
+    );
+
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    transition:
+      font-size 300ms ease,
+      line-height 300ms ease;
+  }
+
+
+  /* =========================================================
+     DARK MODE
+     ========================================================= */
+
+  :global([data-theme="dark"]) .site-name {
+    background: linear-gradient(
+      105deg,
+      #ffffff 0%,
+      #f3eaff 12%,
+      #e3d2ff 25%,
+      #cdb0ff 40%,
+      #ad82f5 58%,
+      #8b5cf6 78%,
+      #7c5ce0 100%
+    );
+
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+
+  /* =========================================================
+     TABLET
+     ========================================================= */
+
+  @media (max-width: 950px) {
+    .identity {
+      align-items: center;
+      text-align: center;
+    }
+
+    .site-name {
+      font-size: 3rem;
+    }
+
+    .personal-tagline {
+      margin-top: 1rem;
+    }
+  }
+
+
+  /* =========================================================
+     MOBILE
+     ========================================================= */
+
+  @media (max-width: 767px) {
+    .site-name {
+      font-size: clamp(2.7rem, 9vw, 3rem);
+      transform: translateY(-0.5rem);
+    }
+
+    .personal-tagline {
+      font-size: 1rem;
+      margin-top: 0.9rem;
+    }
+  }
+
+
+  /* =========================================================
+     VERY SMALL PHONES
+     ========================================================= */
+
+  @media (max-width: 480px) {
+    .personal-tagline {
+      font-size: 0.95rem;
+    }
+  }
+</style>

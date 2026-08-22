@@ -1,0 +1,879 @@
+---
+const socialLinks = [
+  { label: "Roblox", short: "R", href: "#" },
+  { label: "Discord", short: "D", href: "#" },
+  { label: "YouTube", short: "Y", href: "#" },
+  { label: "Instagram", short: "I", href: "#" },
+  { label: "X", short: "X", href: "#" },
+  { label: "GitHub", short: "G", href: "#" },
+  { label: "Twitch", short: "T", href: "#" },
+];
+
+const wheelLinks = [
+  ...socialLinks,
+  ...socialLinks,
+];
+---
+
+<div
+  class="social-carousel"
+  data-social-carousel
+>
+  <div
+    class="social-wheel"
+    data-social-wheel
+  >
+    {
+      wheelLinks.map((social, index) => (
+        <div
+          class="social-item"
+          data-social-item
+          data-index={index}
+        >
+          <a
+            href={social.href}
+            aria-label={social.label}
+            draggable="false"
+            class="social-link"
+          >
+            <span class="text-xs font-bold">
+              {social.short}
+            </span>
+          </a>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .social-carousel {
+    position: relative;
+
+    width: 204px;
+    height: 64px;
+
+    overflow: hidden;
+
+    user-select: none;
+
+    touch-action: pan-y;
+  }
+
+
+  .social-wheel {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 0;
+    height: 0;
+
+    pointer-events: none;
+  }
+
+
+  .social-item {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 36px;
+    height: 36px;
+
+    margin-left: -18px;
+    margin-top: -18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: auto;
+
+    will-change:
+      transform,
+      opacity;
+  }
+
+
+  .social-link {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9999px;
+
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+
+    text-decoration: none;
+
+    box-shadow:
+      0 4px 9px rgba(0, 0, 0, 0.13),
+      0 1px 3px rgba(0, 0, 0, 0.08);
+
+    transform-origin: center center;
+
+    will-change:
+      transform,
+      box-shadow;
+
+    transition:
+      transform 140ms ease,
+      box-shadow 140ms ease;
+  }
+
+
+  .social-link:hover {
+    box-shadow:
+      0 8px 16px rgba(0, 0, 0, 0.17),
+      0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+</style>
+
+<script>
+  const carousel =
+    document.querySelector<HTMLElement>(
+      "[data-social-carousel]"
+    );
+
+  const wheel =
+    document.querySelector<HTMLElement>(
+      "[data-social-wheel]"
+    );
+
+  const items =
+    Array.from(
+      document.querySelectorAll<HTMLElement>(
+        "[data-social-item]"
+      )
+    );
+
+
+  if (carousel && wheel && items.length) {
+
+    /*
+     * These values define the established
+     * head-on wheel orientation.
+     *
+     * DO NOT change these when adjusting
+     * the spin behavior.
+     */
+
+    const itemCount =
+      items.length;
+
+    /*
+     * Slightly reduced from 92px.
+     *
+     * This keeps the exact same orientation
+     * while moving the outer icons inward
+     * enough to prevent the container from
+     * clipping their edges.
+     */
+    const radiusX =
+      88;
+
+    const rearCutoff =
+      -0.02;
+
+    const angleStep =
+      (Math.PI * 2) /
+      itemCount;
+
+
+    /*
+     * Wheel state.
+     */
+
+    let rotation =
+      0;
+
+    let velocity =
+      0;
+
+    let dragging =
+      false;
+
+    let lastX =
+      0;
+
+    let lastTime =
+      0;
+
+    let animationFrame =
+      0;
+
+    let animationToken =
+      0;
+
+
+    /*
+     * ---------------------------------------------------------
+     * RENDER
+     * ---------------------------------------------------------
+     */
+
+    const render = () => {
+
+      items.forEach(
+        (item, index) => {
+
+          const angle =
+            index *
+              angleStep +
+            rotation;
+
+
+          /*
+           * Horizontal wheel position.
+           */
+          const x =
+            Math.sin(angle) *
+            radiusX;
+
+
+          /*
+           * LOCKED.
+           *
+           * This prevents the wheel from
+           * becoming an upward/downward arc.
+           */
+          const y =
+            0;
+
+
+          /*
+           * Depth is purely visual.
+           *
+           * It does NOT move the icon vertically.
+           */
+          const depth =
+            Math.cos(angle);
+
+
+          /*
+           * Rear half disappears.
+           */
+          const visible =
+            depth >
+            rearCutoff;
+
+
+          /*
+           * Only front-facing depth
+           * contributes to scale.
+           */
+          const frontDepth =
+            Math.max(
+              0,
+              depth
+            );
+
+
+          /*
+           * Front icons become slightly larger.
+           */
+          const scale =
+            0.72 +
+            (
+              frontDepth *
+              0.28
+            );
+
+
+          /*
+           * Front icons become more visible.
+           */
+          const opacity =
+            visible
+              ? 0.18 +
+                (
+                  frontDepth *
+                  0.82
+                )
+              : 0;
+
+
+          /*
+           * Depth-based shadow.
+           */
+          const shadowStrength =
+            0.35 +
+            (
+              frontDepth *
+              0.65
+            );
+
+
+          /*
+           * Front icons sit above rear icons.
+           */
+          const zIndex =
+            Math.round(
+              (
+                depth + 1
+              ) *
+              50
+            );
+
+
+          /*
+           * Apply the POSITION.
+           *
+           * This is the only thing that controls
+           * where the wheel places the item.
+           */
+          item.style.transform =
+            `translate3d(${x}px, ${y}px, 0)`;
+
+
+          item.style.opacity =
+            String(opacity);
+
+
+          item.style.zIndex =
+            String(zIndex);
+
+
+          item.style.pointerEvents =
+            visible
+              ? "auto"
+              : "none";
+
+
+          const link =
+            item.querySelector<HTMLElement>(
+              ".social-link"
+            );
+
+
+          if (link) {
+
+            /*
+             * -------------------------------------------------
+             * HOVER DEPTH EFFECT
+             * -------------------------------------------------
+             *
+             * JavaScript controls the normal scale,
+             * so the hover effect has to be included
+             * here rather than relying on CSS transform.
+             */
+
+            const isHovered =
+              item.matches(":hover");
+
+
+            const hoverScale =
+              isHovered
+                ? 1.08
+                : 1;
+
+
+            const hoverLift =
+              isHovered
+                ? -4
+                : 0;
+
+
+            link.style.transform =
+              `translateY(${hoverLift}px) scale(${scale * hoverScale})`;
+
+
+            link.style.boxShadow =
+              `
+                0 ${
+                  3 *
+                  shadowStrength
+                }px ${
+                  8 *
+                  shadowStrength
+                }px
+                rgba(
+                  0,
+                  0,
+                  0,
+                  ${
+                    0.08 *
+                    shadowStrength
+                  }
+                ),
+                0 1px 3px
+                rgba(
+                  0,
+                  0,
+                  0,
+                  ${
+                    0.05 *
+                    shadowStrength
+                  }
+                )
+              `;
+          }
+        }
+      );
+    };
+
+
+    /*
+     * ---------------------------------------------------------
+     * MOMENTUM
+     * ---------------------------------------------------------
+     */
+
+    const startMomentum = () => {
+
+      const token =
+        ++animationToken;
+
+
+      const friction =
+        0.982;
+
+
+      const springThreshold =
+        0.0012;
+
+
+      const momentum = () => {
+
+        if (
+          dragging ||
+          token !== animationToken
+        ) {
+          return;
+        }
+
+
+        velocity *=
+          friction;
+
+
+        rotation +=
+          velocity;
+
+
+        render();
+
+
+        if (
+          Math.abs(velocity) >
+          springThreshold
+        ) {
+
+          animationFrame =
+            requestAnimationFrame(
+              momentum
+            );
+
+          return;
+        }
+
+
+        startSpring(
+          token
+        );
+      };
+
+
+      animationFrame =
+        requestAnimationFrame(
+          momentum
+        );
+    };
+
+
+    /*
+     * ---------------------------------------------------------
+     * SPRING STOP
+     * ---------------------------------------------------------
+     */
+
+    const startSpring = (
+      token: number
+    ) => {
+
+      if (
+        token !== animationToken ||
+        dragging
+      ) {
+        return;
+      }
+
+
+      const target =
+        Math.round(
+          rotation /
+            angleStep
+        ) *
+        angleStep;
+
+
+      let springPosition =
+        rotation;
+
+
+      let springVelocity =
+        velocity;
+
+
+      const stiffness =
+        0.018;
+
+
+      const damping =
+        0.76;
+
+
+      const maxSpringVelocity =
+        0.035;
+
+
+      let settledFrames =
+        0;
+
+
+      const spring = () => {
+
+        if (
+          dragging ||
+          token !== animationToken
+        ) {
+          return;
+        }
+
+
+        const distance =
+          target -
+          springPosition;
+
+
+        const force =
+          distance *
+          stiffness;
+
+
+        springVelocity +=
+          force;
+
+
+        springVelocity =
+          Math.max(
+            -maxSpringVelocity,
+            Math.min(
+              maxSpringVelocity,
+              springVelocity
+            )
+          );
+
+
+        springVelocity *=
+          damping;
+
+
+        springPosition +=
+          springVelocity;
+
+
+        rotation =
+          springPosition;
+
+
+        render();
+
+
+        const positionError =
+          Math.abs(
+            target -
+            springPosition
+          );
+
+
+        const speed =
+          Math.abs(
+            springVelocity
+          );
+
+
+        if (
+          positionError <
+            0.0007 &&
+          speed <
+            0.0007
+        ) {
+
+          settledFrames++;
+
+        } else {
+
+          settledFrames =
+            0;
+        }
+
+
+        if (
+          settledFrames >=
+          8
+        ) {
+
+          rotation =
+            target;
+
+          velocity =
+            0;
+
+          render();
+
+          return;
+        }
+
+
+        animationFrame =
+          requestAnimationFrame(
+            spring
+          );
+      };
+
+
+      animationFrame =
+        requestAnimationFrame(
+          spring
+        );
+    };
+
+
+    /*
+     * ---------------------------------------------------------
+     * HOVER EVENTS
+     * ---------------------------------------------------------
+     *
+     * The wheel renderer owns the transform,
+     * so explicitly re-render when hover state
+     * changes.
+     */
+
+    items.forEach(
+      (item) => {
+
+        item.addEventListener(
+          "mouseenter",
+          () => {
+            render();
+          }
+        );
+
+
+        item.addEventListener(
+          "mouseleave",
+          () => {
+            render();
+          }
+        );
+      }
+    );
+
+
+    /*
+     * ---------------------------------------------------------
+     * DRAG START
+     * ---------------------------------------------------------
+     */
+
+    carousel.addEventListener(
+      "pointerdown",
+      (event) => {
+
+        dragging =
+          true;
+
+
+        animationToken++;
+
+
+        cancelAnimationFrame(
+          animationFrame
+        );
+
+
+        lastX =
+          event.clientX;
+
+
+        lastTime =
+          performance.now();
+
+
+        velocity =
+          0;
+
+
+        carousel.setPointerCapture(
+          event.pointerId
+        );
+      }
+    );
+
+
+    /*
+     * ---------------------------------------------------------
+     * DRAG MOVE
+     * ---------------------------------------------------------
+     */
+
+    carousel.addEventListener(
+      "pointermove",
+      (event) => {
+
+        if (!dragging) {
+          return;
+        }
+
+
+        const now =
+          performance.now();
+
+
+        const dx =
+          event.clientX -
+          lastX;
+
+
+        const dt =
+          Math.max(
+            1,
+            now -
+              lastTime
+          );
+
+
+        const angularMovement =
+          dx /
+          radiusX;
+
+
+        rotation +=
+          angularMovement;
+
+
+        velocity =
+          (
+            angularMovement /
+            dt
+          ) *
+          16;
+
+
+        lastX =
+          event.clientX;
+
+
+        lastTime =
+          now;
+
+
+        render();
+      }
+    );
+
+
+    /*
+     * ---------------------------------------------------------
+     * RELEASE
+     * ---------------------------------------------------------
+     */
+
+    const release = (
+      event: PointerEvent
+    ) => {
+
+      if (!dragging) {
+        return;
+      }
+
+
+      dragging =
+        false;
+
+
+      try {
+
+        carousel.releasePointerCapture(
+          event.pointerId
+        );
+
+      } catch {}
+
+
+      if (
+        Math.abs(velocity) <
+        0.0008
+      ) {
+
+        velocity =
+          0;
+
+
+        startSpring(
+          ++animationToken
+        );
+
+
+        return;
+      }
+
+
+      startMomentum();
+    };
+
+
+    carousel.addEventListener(
+      "pointerup",
+      release
+    );
+
+
+    carousel.addEventListener(
+      "pointercancel",
+      release
+    );
+
+
+    /*
+     * Prevent native dragging.
+     */
+    carousel.addEventListener(
+      "dragstart",
+      (event) => {
+        event.preventDefault();
+      }
+    );
+
+
+    /*
+     * ---------------------------------------------------------
+     * INITIAL RENDER
+     * ---------------------------------------------------------
+     */
+
+    render();
+
+
+    /*
+     * ---------------------------------------------------------
+     * RESPONSIVE
+     * ---------------------------------------------------------
+     */
+
+    window.addEventListener(
+      "resize",
+      () => {
+        render();
+      }
+    );
+  }
+</script>

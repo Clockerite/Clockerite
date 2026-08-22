@@ -1,0 +1,38 @@
+---
+const primaryNav = [
+  { href: "/blog/", label: "Blog" },
+  { href: "/portfolio/", label: "Portfolio" },
+  { href: "/shop/", label: "Shop" },
+];
+---
+
+<div class="primary-nav">
+  {
+    primaryNav.map((link) => (
+      <a
+        href={link.href}
+        class="whitespace-nowrap text-sm text-text-secondary transition-colors hover:text-text-primary"
+      >
+        {link.label}
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .primary-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: clamp(1rem, 2.5vw, 2rem);
+
+    white-space: nowrap;
+  }
+
+  @media (max-width: 950px) {
+    .primary-nav {
+      display: none;
+    }
+  }
+</style>

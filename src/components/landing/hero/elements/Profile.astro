@@ -1,0 +1,45 @@
+<div class="profile">
+  <div
+    class="profile-circle flex items-center justify-center rounded-full p-1.5 shadow-[var(--shadow-raised)]"
+    style="background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));"
+  >
+    <div class="h-full w-full rounded-full bg-surface"></div>
+  </div>
+</div>
+
+<style>
+  .profile {
+    width: fit-content;
+  }
+
+  .profile-circle {
+    width: 170px;
+    height: 170px;
+
+    transition:
+      width 300ms ease,
+      height 300ms ease;
+  }
+
+:global([data-theme="dark"]) .profile-circle {
+  background: linear-gradient(
+    135deg,
+    #8b5cf6,
+    #7045d6
+  ) !important;
+}
+
+  @media (max-width: 950px) {
+    .profile-circle {
+      width: clamp(135px, 17vw, 155px);
+      height: clamp(135px, 17vw, 155px);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .profile-circle {
+      width: 135px;
+      height: 135px;
+    }
+  }
+</style>

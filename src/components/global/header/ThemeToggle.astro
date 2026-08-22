@@ -1,0 +1,156 @@
+<button
+  type="button"
+  class="setting-toggle"
+  data-theme-toggle
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l1.41 1.41" />
+  </svg>
+
+  <span data-theme-label>
+    Theme
+  </span>
+</button>
+
+<style>
+  .setting-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    align-self: flex-start;
+
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+
+    padding: 0.375rem 0.75rem;
+
+    font-size: 0.875rem;
+
+    color: var(--color-text-secondary);
+
+    background: transparent;
+
+    transition:
+      color 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .setting-toggle:hover {
+    color: var(--color-text-primary);
+    background-color: var(--color-surface);
+  }
+
+  @media (min-width: 768px) {
+    .setting-toggle {
+      align-self: auto;
+    }
+  }
+</style>
+
+<script>
+  const STORAGE_KEY =
+    "clockerite-theme";
+
+
+  function currentTheme():
+    "light" | "dark" {
+
+    return document.documentElement
+      .getAttribute("data-theme") === "dark"
+      ? "dark"
+      : "light";
+
+  }
+
+
+  function updateLabel() {
+
+    const label =
+      document.querySelector<HTMLSpanElement>(
+        "[data-theme-label]"
+      );
+
+    if (!label) return;
+
+    label.textContent =
+      currentTheme() === "dark"
+      ? "Dark"
+      : "Light";
+
+  }
+
+
+  function setTheme(
+    theme: "light" | "dark"
+  ) {
+
+    document.documentElement
+      .setAttribute(
+        "data-theme",
+        theme
+      );
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      theme
+    );
+
+    updateLabel();
+
+  }
+
+
+  const toggle =
+    document.querySelector<HTMLButtonElement>(
+      "[data-theme-toggle]"
+    );
+
+
+  toggle?.addEventListener(
+    "click",
+    () => {
+
+      setTheme(
+        currentTheme() === "dark"
+          ? "light"
+          : "dark"
+      );
+
+    }
+  );
+
+
+  const savedTheme =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
+
+  if (
+    savedTheme === "light" ||
+    savedTheme === "dark"
+  ) {
+
+    setTheme(
+      savedTheme
+    );
+
+  } else {
+
+    updateLabel();
+
+  }
+</script>

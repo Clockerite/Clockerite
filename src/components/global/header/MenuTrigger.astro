@@ -1,0 +1,151 @@
+<button
+  type="button"
+  class="menu-trigger"
+  aria-label="Open menu"
+  aria-expanded="false"
+  aria-controls="site-menu"
+  data-menu-trigger
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <line x1="4" y1="7" x2="20" y2="7" />
+    <line x1="4" y1="12" x2="20" y2="12" />
+    <line x1="4" y1="17" x2="20" y2="17" />
+  </svg>
+</button>
+
+<style>
+  .menu-trigger {
+    justify-self: end;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 2.25rem;
+    height: 2.25rem;
+
+    padding: 0;
+
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+
+    color: var(--color-text-secondary);
+
+    background: transparent;
+
+    transition:
+      color 180ms ease,
+      transform 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .menu-trigger:hover {
+    color: var(--color-text-primary);
+    transform: scale(1.05);
+  }
+</style>
+
+<script>
+  const menuTrigger =
+    document.querySelector<HTMLButtonElement>(
+      "[data-menu-trigger]"
+    );
+
+  const menuPanel =
+    document.querySelector<HTMLDivElement>(
+      "[data-menu-panel]"
+    );
+
+
+  function closeMenu() {
+
+    menuPanel?.classList.add("hidden");
+
+    menuTrigger?.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+  }
+
+
+  function toggleMenu() {
+
+    if (!menuPanel) return;
+
+    const isOpen =
+      !menuPanel.classList.contains("hidden");
+
+    menuPanel.classList.toggle(
+      "hidden"
+    );
+
+    menuTrigger?.setAttribute(
+      "aria-expanded",
+      String(!isOpen)
+    );
+
+  }
+
+
+  menuTrigger?.addEventListener(
+    "click",
+    (event) => {
+
+      event.stopPropagation();
+
+      toggleMenu();
+
+    }
+  );
+
+
+  document.addEventListener(
+    "click",
+    (event) => {
+
+      if (
+        !menuPanel ||
+        menuPanel.classList.contains("hidden")
+      ) {
+        return;
+      }
+
+      const target =
+        event.target as Node;
+
+      if (
+        !menuPanel.contains(target) &&
+        !menuTrigger?.contains(target)
+      ) {
+
+        closeMenu();
+
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    "keydown",
+    (event) => {
+
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+
+    }
+  );
+</script>

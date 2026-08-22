@@ -1,0 +1,50 @@
+---
+import HeaderLogo from "./header/HeaderLogo.astro";
+import PrimaryNav from "./header/PrimaryNav.astro";
+import MenuTrigger from "./header/MenuTrigger.astro";
+import MenuPanel from "./header/MenuPanel.astro";
+---
+
+<header
+  class="site-header sticky top-0 z-40 border-b border-border bg-background/85 shadow-[0_2px_8px_rgba(0,0,0,0.06)] backdrop-blur"
+>
+  <nav
+    class="site-header-inner"
+    aria-label="Main navigation"
+  >
+
+    <HeaderLogo />
+
+    <PrimaryNav />
+
+    <MenuTrigger />
+
+  </nav>
+
+  <MenuPanel />
+
+</header>
+
+<style>
+  .site-header-inner {
+    width: 100%;
+    max-width: 1400px;
+    margin-inline: auto;
+
+    box-sizing: border-box;
+
+    padding-inline: clamp(1rem, 4vw, 4rem);
+    padding-block: 1rem;
+
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+
+    align-items: center;
+  }
+
+  @media (max-width: 950px) {
+    .site-header-inner {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

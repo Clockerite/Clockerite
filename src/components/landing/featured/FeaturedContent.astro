@@ -1,0 +1,108 @@
+---
+const featureCards = [
+  {
+    num: "01",
+    href: "/portfolio/",
+    label: "WORK",
+    title: "Portfolio",
+    desc: "A professional collection of development, games, builds, models, media, experiments, and future work.",
+    cta: "View portfolio →",
+    large: true,
+  },
+  {
+    num: "02",
+    href: "/blog/",
+    label: "WRITING",
+    title: "Blog",
+    desc: "Development thoughts, experiments, tutorials, ideas, and things worth sharing.",
+    cta: "Read the blog →",
+    large: false,
+  },
+  {
+    num: "03",
+    href: "/projects/",
+    label: "BUILDING",
+    title: "Projects",
+    desc: "Current projects, experiments, studios, concepts, and things in progress.",
+    cta: "Explore projects →",
+    large: false,
+  },
+  {
+    num: "04",
+    href: "/shop/",
+    label: "CREATIONS",
+    title: "Shop",
+    desc: "Digital products, assets, media, and future Clockerite creations.",
+    cta: "Visit the shop →",
+    large: false,
+  },
+];
+---
+
+<section
+  class="border-t border-border bg-surface py-20"
+  aria-labelledby="featured-title"
+>
+  <div class="mx-auto max-w-6xl px-6">
+
+    <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+
+      <div>
+        <p class="text-sm font-medium tracking-wide text-accent">
+          Discover
+        </p>
+
+        <h2
+          id="featured-title"
+          class="mt-2 text-3xl font-semibold tracking-tight text-text-primary"
+        >
+          A place for everything Clockerite.
+        </h2>
+      </div>
+
+      <p class="max-w-sm text-sm text-text-secondary">
+        Development, experiments, projects, writing, creations, and whatever comes next.
+      </p>
+
+    </div>
+
+    <div class="mt-10 grid gap-5 md:grid-cols-3">
+      {
+        featureCards.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              "group flex flex-col justify-between rounded-2xl border border-border bg-surface-raised p-6 shadow-[var(--shadow-card)] transition-transform hover:-translate-y-1",
+              item.large && "md:col-span-2 md:row-span-2",
+            ]}
+          >
+            <span class="text-sm text-text-muted">
+              {item.num}
+            </span>
+
+            <div class="mt-6">
+
+              <p class="text-xs font-medium tracking-[0.2em] text-text-muted">
+                {item.label}
+              </p>
+
+              <h3 class="mt-2 text-2xl font-semibold text-text-primary">
+                {item.title}
+              </h3>
+
+              <p class="mt-2 text-sm text-text-secondary">
+                {item.desc}
+              </p>
+
+              <span class="mt-4 inline-block text-sm font-medium text-accent transition-transform group-hover:translate-x-1">
+                {item.cta}
+              </span>
+
+            </div>
+          </a>
+        ))
+      }
+    </div>
+
+  </div>
+</section>

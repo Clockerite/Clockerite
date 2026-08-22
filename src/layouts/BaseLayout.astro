@@ -1,6 +1,7 @@
 ---
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
+import Header from "../components/global/Header.astro";
+import Footer from "../components/global/Footer.astro";
+import LiquidFilter from "../components/global/liquid/LiquidFilter.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -9,40 +10,83 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
-const pageTitle = title === "Clockerite" ? title : `${title} · Clockerite`;
+
+const pageTitle =
+  title === "Clockerite"
+    ? title
+    : `${title} · Clockerite`;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/favicon.svg"
+    />
 
     <title>{pageTitle}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+
+    <meta
+      name="description"
+      content={description}
+    />
+
+    <link
+      rel="canonical"
+      href={new URL(Astro.url.pathname, Astro.site)}
+    />
 
     <!--
-      Theme init runs before paint to avoid a flash of the wrong theme.
-      Respects a stored preference first, then system preference.
+      Theme initialization runs before paint
+      to avoid a flash of the wrong theme.
+
+      Stored preference takes priority.
+      Otherwise the user's system preference is used.
     -->
+
     <script is:inline>
       (function () {
         var STORAGE_KEY = "clockerite-theme";
         var stored = localStorage.getItem(STORAGE_KEY);
+
         var theme =
-          stored || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-        document.documentElement.setAttribute("data-theme", theme);
+          stored ||
+          (
+            window.matchMedia(
+              "(prefers-color-scheme: dark)"
+            ).matches
+              ? "dark"
+              : "light"
+          );
+
+        document.documentElement.setAttribute(
+          "data-theme",
+          theme
+        );
       })();
     </script>
   </head>
 
   <body class="flex min-h-screen flex-col">
+
+    <LiquidFilter />
+
     <Header />
+
     <main class="flex-1">
       <slot />
     </main>
+
     <Footer />
+
   </body>
 </html>

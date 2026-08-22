@@ -1,0 +1,163 @@
+<button
+  type="button"
+  class="setting-toggle"
+  data-liquid-toggle
+  aria-pressed="false"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M12 3c4 0 7 2 7 5s-3 5-7 5-7-2-7-5 3-5 7-5Z" />
+    <path d="M5 8c0 4 3 7 7 7s7-3 7-7" />
+    <path d="M7 15c0 3 2 5 5 6" />
+  </svg>
+
+  <span data-liquid-label>
+    Liquid Off
+  </span>
+</button>
+
+<style>
+  .setting-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    align-self: flex-start;
+
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+
+    padding: 0.375rem 0.75rem;
+
+    font-size: 0.875rem;
+
+    color: var(--color-text-secondary);
+
+    background: transparent;
+
+    transition:
+      color 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .setting-toggle:hover {
+    color: var(--color-text-primary);
+    background-color: var(--color-surface);
+  }
+
+  @media (min-width: 768px) {
+    .setting-toggle {
+      align-self: auto;
+    }
+  }
+</style>
+
+<script>
+  const STORAGE_KEY =
+    "clockerite-liquid";
+
+
+  function liquidEnabled(): boolean {
+
+    return document.documentElement
+      .getAttribute("data-liquid") === "true";
+
+  }
+
+
+  function updateLabel() {
+
+    const label =
+      document.querySelector<HTMLSpanElement>(
+        "[data-liquid-label]"
+      );
+
+    if (!label) return;
+
+    label.textContent =
+      liquidEnabled()
+        ? "Liquid On"
+        : "Liquid Off";
+
+  }
+
+
+  function setLiquid(
+    enabled: boolean
+  ) {
+
+    document.documentElement
+      .setAttribute(
+        "data-liquid",
+        String(enabled)
+      );
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      String(enabled)
+    );
+
+    const toggle =
+      document.querySelector<HTMLButtonElement>(
+        "[data-liquid-toggle]"
+      );
+
+    toggle?.setAttribute(
+      "aria-pressed",
+      String(enabled)
+    );
+
+    updateLabel();
+
+  }
+
+
+  const toggle =
+    document.querySelector<HTMLButtonElement>(
+      "[data-liquid-toggle]"
+    );
+
+
+  toggle?.addEventListener(
+    "click",
+    () => {
+
+      setLiquid(
+        !liquidEnabled()
+      );
+
+    }
+  );
+
+
+  const savedLiquid =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
+
+  if (
+    savedLiquid === "true" ||
+    savedLiquid === "false"
+  ) {
+
+    setLiquid(
+      savedLiquid === "true"
+    );
+
+  } else {
+
+    setLiquid(false);
+
+  }
+</script>
